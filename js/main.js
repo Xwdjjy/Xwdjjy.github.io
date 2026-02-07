@@ -1,9 +1,9 @@
 /**
  * 小梧个人网站 - 主JavaScript文件
- * 作者: 小梧 (xwdjjy233-hub)
- * 版本: 1.1.0
- * GitHub: https://github.com/xwdjjy233-hub/xwdjjy233-hub.github.io
- * 网站: https://xwdjjy233-hub.github.io
+ * 作者: 小梧 (Xwdjjy)
+ * 版本: 1.1.1
+ * GitHub: https://github.com/Xwdjjy/Xwdjjy.github.io
+ * 网站: https://Xwdjjy.github.io
  */
 
 // ========================================
@@ -18,10 +18,10 @@ function console_welcome() {
         `%c                                                                              \n` +
         `%c   ╔══════════════════════════════════════════════════════════════════╗   \n` +
         `%c   ║                                                                  ║   \n` +
-        `%c   ║          🌳 欢迎来到小梧(xwdjjy233-hub)的个人网站！              ║   \n` +
+        `%c   ║          🌳 欢迎来到小梧(Xwdjjy)的个人网站！              ║   \n` +
         `%c   ║                                                                  ║   \n` +
-        `%c   ║    👨‍💻 作者: 小梧 (GitHub: @xwdjjy233-hub)                      ║   \n` +
-        `%c   ║    🌐 网站: https://xwdjjy233-hub.github.io                     ║   \n` +
+        `%c   ║    👨‍💻 作者: 小梧 (GitHub: @Xwdjjy)                      ║   \n` +
+        `%c   ║    🌐 网站: https://Xwdjjy.github.io                     ║   \n` +
         `%c   ║    📧 联系: 通过GitHub Issues或邮件联系                          ║   \n` +
         `%c   ║    🕐 加载时间: ${new Date().toLocaleTimeString('zh-CN')}                 ║   \n` +
         `%c   ║    📅 加载日期: ${new Date().toLocaleDateString('zh-CN')}                 ║   \n` +
@@ -229,35 +229,11 @@ function useLocalHitokoto() {
     hitokotoElement.title = '本地一言';
 }
 
-/**
- * 更新访问人数统计
- */
-function updateVisitorCount() {
-    const STORAGE_KEY = 'visitor_count_xwdjjy233';
-    const DATE_KEY = 'last_visit_date_xwdjjy233';
-    
-    let count = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
-    const today = new Date().toDateString();
-    const lastVisit = localStorage.getItem(DATE_KEY);
-    
-    // 如果是新的一天或者是新访客
-    if (!lastVisit || lastVisit !== today) {
-        count += 1;
-        localStorage.setItem(STORAGE_KEY, count);
-        localStorage.setItem(DATE_KEY, today);
-        
-        // 如果是新访客（之前没有记录），给予欢迎
-        if (!lastVisit) {
-            showNotification('欢迎首次访问！', 'info');
-        }
-    }
-    
     // 动画更新计数
     const visitorElement = document.getElementById('visitorCount');
     if (visitorElement) {
         animateCounter(visitorElement, count, 1000);
     }
-}
 
 /**
  * 数字动画效果
@@ -678,13 +654,6 @@ function initKeyboardShortcuts() {
                 document.activeElement.blur();
                 break;
                 
-            case ' ':
-                // 空格键暂停/播放音乐
-                e.preventDefault();
-                const musicToggle = document.getElementById('music-toggle');
-                if (musicToggle) musicToggle.click();
-                break;
-                
             case 'h':
                 // H键回到首页
                 if (e.ctrlKey) {
@@ -773,20 +742,17 @@ function init() {
     
     // 5. 获取一言
     fetchHitokoto();
-    
-    // 6. 更新访问人数统计
-    updateVisitorCount();
-    
-    // 7. 初始化返回顶部按钮
+
+    // 6. 初始化返回顶部按钮
     initBackToTop();
     
-    // 8. 初始化事件监听器
+    // 7. 初始化事件监听器
     initEventListeners();
     
-    // 9. 初始化键盘快捷键
+    // 8. 初始化键盘快捷键
     initKeyboardShortcuts();
     
-    // 10. 初始化性能监控
+    // 9. 初始化性能监控
     initPerformanceMonitor();
     
     // 设置定时器
@@ -909,7 +875,7 @@ document.head.appendChild(styleElement);
 // 8. 版本信息
 // ========================================
 
-console.log(`📦 小梧个人网站 JavaScript v1.1.0
+console.log(`📦 小梧个人网站 JavaScript v1.1.1
 ✨ 功能列表:
    - ✅ 控制台欢迎信息
    - ✅ 实时时间显示
@@ -924,7 +890,7 @@ console.log(`📦 小梧个人网站 JavaScript v1.1.0
    - ✅ 性能监控
    - ✅ 错误处理
    
-👤 作者: 小梧 (xwdjjy233-hub)
-🌐 网站: https://xwdjjy233-hub.github.io
+👤 作者: 小梧 (Xwdjjy)
+🌐 网站: https://Xwdjjy.github.io
 📅 最后更新: ${new Date().toLocaleDateString('zh-CN')}
 `);
