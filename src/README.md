@@ -160,6 +160,44 @@ A: 查看 `docs/INDEX_GUIDE.md` 的高级用法部分
 - ✅ 易于扩展和管理
 - ✅ 版本控制更清晰
 
+###示例
+
+{
+      "id": 2,
+      "title": "响应式作品集模板",
+      "description": "轻量、可定制的作品集模板，包含项目卡片、滤镜与模态展示组件。",
+      "type": "projects",
+      "url": "/projects/portfolio-template",
+      "meta": "模版",
+      "tags": ["design", "template"]
+    },
+    {
+      "id": 3,
+      "title": "API 使用手册",
+      "description": "列出常用端点与示例请求，帮助你快速集成第三方服务。",
+      "type": "docs",
+      "url": "/docs/api-guide",
+      "meta": "v1.2",
+      "tags": ["api", "documentation"]
+    },
+    {
+      "id": 4,
+      "title": "前端性能优化技巧",
+      "description": "从资源加载到渲染优化，实用技巧与工具推荐，提升页面速度。",
+      "type": "posts",
+      "url": "/posts/performance-optimization",
+      "meta": "性能",
+      "tags": ["frontend", "performance", "dev"]
+    },
+    {
+      "id": 5,
+      "title": "可视化数据仪表盘",
+      "description": "基于图表库与响应式布局的仪表盘示例，支持实时数据刷新。",
+      "type": "projects",
+      "url": "/projects/dashboard",
+      "meta": "Dashboard",
+      "tags": ["data", "visualization", "dev"]
+    }
 ---
 
 **最后更新**: 2026-02-08  

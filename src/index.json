@@ -2,62 +2,44 @@
   "items": [
     {
       "id": 1,
-      "title": "如何使用GitHub Pages搭建个人站点",
-      "description": "逐步教你配置仓库、域名与CI，快速把静态站点部署到GitHub Pages。",
-      "type": "posts",
-      "url": "/posts/github-pages-guide",
-      "date": "2025-06-01",
-      "tags": ["github", "pages", "guide"]
+      "title": "科学预测父母性别",
+      "description": "基于遗传学原理和统计模型，使用最先进技术，提供父母性别分析。",
+      "type": "projects",
+      "url": "/projects/gender-prediction",
+      "date": "2026.2.8",
+      "tags": ["github", "science", "prediction"]
     },
     {
       "id": 2,
-      "title": "响应式作品集模板",
-      "description": "轻量、可定制的作品集模板，包含项目卡片、滤镜与模态展示组件。",
+      "title": "索引系统上线！",
+      "description": "可以以通过标签、类型和日期快速找到相关内容，提升浏览体验（大抵是的吧）。",
       "type": "projects",
-      "url": "/projects/portfolio-template",
-      "meta": "模版",
-      "tags": ["design", "template"]
+      "url": "/index.html",
+      "meta": "system",
+      "tags": ["github", "guide", "index"]
     },
     {
       "id": 3,
-      "title": "API 使用手册",
-      "description": "列出常用端点与示例请求，帮助你快速集成第三方服务。",
-      "type": "docs",
-      "url": "/docs/api-guide",
-      "meta": "v1.2",
-      "tags": ["api", "documentation"]
-    },
-    {
-      "id": 4,
-      "title": "前端性能优化技巧",
-      "description": "从资源加载到渲染优化，实用技巧与工具推荐，提升页面速度。",
-      "type": "posts",
-      "url": "/posts/performance-optimization",
-      "meta": "性能",
-      "tags": ["frontend", "performance", "dev"]
-    },
-    {
-      "id": 5,
-      "title": "可视化数据仪表盘",
-      "description": "基于图表库与响应式布局的仪表盘示例，支持实时数据刷新。",
+      "title": "个人介绍网站",
+      "description": "一个简洁的个人介绍页面，包含基本信息、技能和联系方式。",
       "type": "projects",
-      "url": "/projects/dashboard",
-      "meta": "Dashboard",
-      "tags": ["data", "visualization", "dev"]
+      "url": "Xwdjjy.github.io",
+      "date": "2026.1.2",
+      "tags": ["github", "pages"]
     }
   ],
   "recent": [
     {
-      "title": "发布新文章：前端性能优化",
+      "title": "索引系统上线！",
       "icon": "A",
-      "time": "3 天前",
-      "url": "/posts/performance-optimization"
+      "time": "02.08",
+      "url": "/index.html"
     },
     {
-      "title": "更新：作品集模板",
+      "title": "预测父母性别上线",
       "icon": "P",
-      "time": "上周",
-      "url": "/projects/portfolio-template"
+      "time": "02.08",
+      "url": "/projects/gender-prediction"
     }
   ]
 }
