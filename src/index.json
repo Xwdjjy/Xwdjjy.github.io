@@ -5,7 +5,7 @@
       "title": "科学预测父母性别",
       "description": "基于遗传学原理和统计模型，使用最先进技术，提供父母性别分析。",
       "type": "projects",
-      "url": "/projects/gender-prediction",
+      "url": "src/projects/gender-prediction",
       "date": "2026.2.8",
       "tags": ["github", "science", "prediction"]
     },
@@ -14,7 +14,7 @@
       "title": "索引系统上线！",
       "description": "可以以通过标签、类型和日期快速找到相关内容，提升浏览体验（大抵是的吧）。",
       "type": "projects",
-      "url": "/index.html",
+      "url": "src/index.html",
       "meta": "system",
       "tags": ["github", "guide", "index"]
     },
@@ -23,7 +23,7 @@
       "title": "个人介绍网站",
       "description": "一个简洁的个人介绍页面，包含基本信息、技能和联系方式。",
       "type": "projects",
-      "url": "Xwdjjy.github.io",
+      "url": "/index.html",
       "date": "2026.1.2",
       "tags": ["github", "pages"]
     }
@@ -33,13 +33,13 @@
       "title": "索引系统上线！",
       "icon": "A",
       "time": "02.08",
-      "url": "/index.html"
+      "url": "src/index.html"
     },
     {
       "title": "预测父母性别上线",
       "icon": "P",
       "time": "02.08",
-      "url": "/projects/gender-prediction"
+      "url": "src/projects/gender-prediction"
     }
   ]
 }
