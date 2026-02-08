@@ -3,7 +3,7 @@
 ## 添加新条目的 4 步流程
 
 ### Step 1: 打开 `index.json`
-位置：仓库根目录
+位置：`src/index.json`
 
 ### Step 2: 在 `items` 数组中添加条目
 
@@ -22,7 +22,7 @@
 ### Step 3: 保存并提交
 
 ```bash
-git add index.json
+git add src/index.json
 git commit -m "feat: 添加新条目 - 你的标题"
 git push origin main
 ```
@@ -93,4 +93,10 @@ git push origin main
 
 ---
 
-有问题？查看详细指南：[INDEX_GUIDE.md](./INDEX_GUIDE.md)
+## 📚 更多资源
+
+有问题？查看详细指南：
+- 详细指南：[INDEX_GUIDE.md](./docs/INDEX_GUIDE.md)
+- 工作流程：[WORKFLOW_DIAGRAM.md](./docs/WORKFLOW_DIAGRAM.md)
+- 完成清单：[COMPLETION_CHECKLIST.md](./docs/COMPLETION_CHECKLIST.md)
+- 系统说明：[README.md](./README.md)
