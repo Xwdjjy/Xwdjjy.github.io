@@ -18,15 +18,15 @@ function console_welcome() {
         `%c                                                                              \n` +
         `%c   ╔══════════════════════════════════════════════════════════════════╗   \n` +
         `%c   ║                                                                  ║   \n` +
-        `%c   ║          🌳 欢迎来到小梧(Xwdjjy)的个人网站！              ║   \n` +
+        `%c   ║          🌳 欢迎来到小梧(Xwdjjy)的个人网站！                       ║   \n` +
         `%c   ║                                                                  ║   \n` +
-        `%c   ║    👨‍💻 作者: 小梧 (GitHub: @Xwdjjy)                      ║   \n` +
-        `%c   ║    🌐 网站: https://Xwdjjy.github.io                     ║   \n` +
-        `%c   ║    📧 联系: 通过GitHub Issues或邮件联系                          ║   \n` +
-        `%c   ║    🕐 加载时间: ${new Date().toLocaleTimeString('zh-CN')}                 ║   \n` +
-        `%c   ║    📅 加载日期: ${new Date().toLocaleDateString('zh-CN')}                 ║   \n` +
+        `%c   ║    👨‍💻 作者: 小梧 (GitHub: @Xwdjjy)                                ║   \n` +
+        `%c   ║    🌐 网站: https://Xwdjjy.github.io                             ║   \n` +
+        `%c   ║    📧 联系: 通过GitHub Issues或邮件联系                           ║   \n` +
+        `%c   ║    🕐 加载时间: ${new Date().toLocaleTimeString('zh-CN')}        ║   \n` +
+        `%c   ║    📅 加载日期: ${new Date().toLocaleDateString('zh-CN')}        ║   \n` +
         `%c   ║                                                                  ║   \n` +
-        `%c   ║    感谢访问！希望你能在这里找到有用的内容。                      ║   \n` +
+        `%c   ║    感谢访问！希望你能在这里找到有用的内容。                          ║   \n` +
         `%c   ║                                                                  ║   \n` +
         `%c   ╚══════════════════════════════════════════════════════════════════╝   \n` +
         `%c                                                                              `,
