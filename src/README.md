@@ -160,8 +160,8 @@ A: 查看 `docs/INDEX_GUIDE.md` 的高级用法部分
 - ✅ 易于扩展和管理
 - ✅ 版本控制更清晰
 
-###示例
-
+### 示例
+```
 {
       "id": 2,
       "title": "响应式作品集模板",
@@ -198,6 +198,7 @@ A: 查看 `docs/INDEX_GUIDE.md` 的高级用法部分
       "meta": "Dashboard",
       "tags": ["data", "visualization", "dev"]
     }
+```
 ---
 
 **最后更新**: 2026-02-08  
