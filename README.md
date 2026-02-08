@@ -67,7 +67,6 @@ Xwdjjy.github.io/
 ### 部署
 - GitHub Pages
 - 静态网站
-- CDN 加速
 
 ### 索引系统
 - 原生 JavaScript (无依赖)
