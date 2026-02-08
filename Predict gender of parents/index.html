@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父母性别预测器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(120deg, #4a6fa5, #2c3e50);
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            animation: moveBackground 20s linear infinite;
+        }
+        
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .progress-container {
+            padding: 20px 25px 10px;
+            background: #f9f9f9;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e6e6e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .content {
+            padding: 30px 25px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .question-container {
+            display: block;
+        }
+        
+        .question-container.hidden {
+            display: none;
+        }
+        
+        .question-number {
+            color: #3498db;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            padding: 18px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .option.selected {
+            background: #e3f2fd;
+            border-color: #3498db;
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .option-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .button-container {
+            margin-top: auto;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(120deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .btn.active {
+            opacity: 1;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn.active:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn:disabled {
+            cursor: not-allowed;
+        }
+        
+        .loading-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid #e6e6e6;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .loading-subtext {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .result-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+            color: #3498db;
+        }
+        
+        .result-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .result-text {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #e74c3c;
+            padding: 15px 25px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .result-desc {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 35px;
+            line-height: 1.5;
+            max-width: 90%;
+        }
+        
+        .restart-btn {
+            padding: 16px 40px;
+            background: linear-gradient(120deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            background: #f9f9f9;
+            border-top: 1px solid #eee;
+        }
+        
+        .sound-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .sound-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 600px) {
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .option {
+                padding: 16px 18px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="sound-toggle" id="soundToggle" title="切换音效">
+                <i class="fas fa-volume-up" id="soundIcon"></i>
+            </div>
+            <h1><i class="fas fa-user-friends"></i> 父母性别预测器</h1>
+            <p>通过科学(?)算法预测你父母的性别</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0/5 已完成</div>
+        </div>
+        
+        <div class="content">
+            <!-- 问题1 -->
+            <div class="question-container" id="question1">
+                <div class="question-number">问题 1/5</div>
+                <div class="question-text">首先，你需要预测谁的父母性别？</div>
+                <div class="options">
+                    <div class="option" data-value="self">
+                        <div class="option-icon"><i class="fas fa-user"></i></div>
+                        <div>我自己的父母</div>
+                    </div>
+                    <div class="option" data-value="friend">
+                        <div class="option-icon"><i class="fas fa-users"></i></div>
+                        <div>朋友的父母（帮你朋友预测）</div>
+                    </div>
+                    <div class="option" data-value="celebrity">
+                        <div class="option-icon"><i class="fas fa-star"></i></div>
+                        <div>某位名人的父母（纯粹好奇）</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn" id="nextBtn1" disabled>下一题</button>
+                </div>
+            </div>
+            
+            <!-- 问题2 -->
+            <div class="question-container hidden" id="question2">
+                <div class="question-number">问题 2/5</div>
+                <div class="question-text">今天早餐你吃了什么？</div>
+                <div class="options">
+                    <div class="option" data-value="traditional">
+                        <div class="option-icon"><i class="fas fa-bread-slice"></i></div>
+                        <div>传统早餐（粥/包子/油条等）</div>
+                    </div>
+                    <div class="option" data-value="western">
+                        <div class="option-icon"><i class="fas fa-coffee"></i></div>
+                        <div>西式早餐（面包/牛奶/麦片等）</div>
+                    </div>
+                    <div class="option" data-value="none">
+                        <div class="option-icon"><i class="fas fa-bed"></i></div>
+                        <div>没吃早餐（睡过头了）</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn" id="nextBtn2" disabled>下一题</button>
+                </div>
+            </div>
+            
+            <!-- 问题3 -->
+            <div class="question-container hidden" id="question3">
+                <div class="question-number">问题 3/5</div>
+                <div class="question-text">你更喜欢以下哪种颜色？</div>
+                <div class="options">
+                    <div class="option" data-value="blue">
+                        <div class="option-icon"><i class="fas fa-square" style="color: #3498db"></i></div>
+                        <div>蓝色（冷静与智慧）</div>
+                    </div>
+                    <div class="option" data-value="red">
+                        <div class="option-icon"><i class="fas fa-square" style="color: #e74c3c"></i></div>
+                        <div>红色（热情与活力）</div>
+                    </div>
+                    <div class="option" data-value="green">
+                        <div class="option-icon"><i class="fas fa-square" style="color: #2ecc71"></i></div>
+                        <div>绿色（自然与和平）</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn" id="nextBtn3" disabled>下一题</button>
+                </div>
+            </div>
+            
+            <!-- 问题4 -->
+            <div class="question-container hidden" id="question4">
+                <div class="question-number">问题 4/5</div>
+                <div class="question-text">你觉得自己更像以下哪种动物？</div>
+                <div class="options">
+                    <div class="option" data-value="lion">
+                        <div class="option-icon"><i class="fas fa-crow"></i></div>
+                        <div>狮子（勇敢、有领导力）</div>
+                    </div>
+                    <div class="option" data-value="owl">
+                        <div class="option-icon"><i class="fas fa-dove"></i></div>
+                        <div>猫头鹰（智慧、谨慎）</div>
+                    </div>
+                    <div class="option" data-value="dolphin">
+                        <div class="option-icon"><i class="fas fa-fish"></i></div>
+                        <div>海豚（友好、爱社交）</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn" id="nextBtn4" disabled>下一题</button>
+                </div>
+            </div>
+            
+            <!-- 问题5 -->
+            <div class="question-container hidden" id="question5">
+                <div class="question-number">问题 5/5</div>
+                <div class="question-text">最后一个问题：你相信科学吗？</div>
+                <div class="options">
+                    <div class="option" data-value="yes">
+                        <div class="option-icon"><i class="fas fa-flask"></i></div>
+                        <div>完全相信（科学万岁！）</div>
+                    </div>
+                    <div class="option" data-value="somewhat">
+                        <div class="option-icon"><i class="fas fa-question-circle"></i></div>
+                        <div>半信半疑（保持开放心态）</div>
+                    </div>
+                    <div class="option" data-value="no">
+                        <div class="option-icon"><i class="fas fa-magic"></i></div>
+                        <div>不太相信（直觉更重要）</div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn" id="submitBtn" disabled>提交答案</button>
+                </div>
+            </div>
+            
+            <!-- 加载界面 -->
+            <div class="loading-container" id="loadingContainer">
+                <div class="spinner"></div>
+                <div class="loading-text">正在使用量子算法分析您的答案...</div>
+                <div class="loading-subtext">请稍等，我们的超级计算机正在计算中</div>
+            </div>
+            
+            <!-- 结果界面 -->
+            <div class="result-container" id="resultContainer">
+                <div class="result-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="result-title">预测结果已生成！</div>
+                <div class="result-text" id="resultText"></div>
+                <div class="result-desc" id="resultDesc"></div>
+                <button class="restart-btn" id="restartBtn">
+                    <i class="fas fa-redo-alt"></i> 重新测试
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>免责声明：本测试仅供娱乐，预测结果不具备科学依据。</p>
+            <p>© 2026 父母性别预测器 - 所有预测结果最终解释权归用户自己所有</p>
+        </div>
+    </div>
+
+    <!-- 音频元素 - 使用Base64编码的简短音频 -->
+    <audio id="clickSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+    
+    <audio id="selectSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+    
+    <audio id="successSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+
+    <script>
+        // 全局变量
+        const userAnswers = {};
+        let soundEnabled = true;
+        
+        // DOM元素
+        const questions = [
+            document.getElementById('question1'),
+            document.getElementById('question2'),
+            document.getElementById('question3'),
+            document.getElementById('question4'),
+            document.getElementById('question5')
+        ];
+        
+        const nextButtons = [
+            document.getElementById('nextBtn1'),
+            document.getElementById('nextBtn2'),
+            document.getElementById('nextBtn3'),
+            document.getElementById('nextBtn4'),
+            document.getElementById('submitBtn')
+        ];
+        
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const loadingContainer = document.getElementById('loadingContainer');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultText = document.getElementById('resultText');
+        const resultDesc = document.getElementById('resultDesc');
+        const restartBtn = document.getElementById('restartBtn');
+        const soundToggle = document.getElementById('soundToggle');
+        const soundIcon = document.getElementById('soundIcon');
+        
+        // 创建音频上下文用于生成音效
+        let audioContext;
+        let isAudioContextInitialized = false;
+        
+        // 初始化音频上下文（需要用户交互后）
+        function initAudioContext() {
+            if (!isAudioContextInitialized && soundEnabled) {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    isAudioContextInitialized = true;
+                    console.log("音频上下文初始化成功");
+                } catch (e) {
+                    console.log("音频上下文初始化失败:", e);
+                }
+            }
+        }
+        
+        // 初始化
+        function init() {
+            // 默认显示第一个问题
+            showQuestion(0);
+            
+            // 为所有选项添加点击事件
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.closest('.question-container').id;
+                    const questionIndex = getQuestionIndex(questionId);
+                    const value = this.getAttribute('data-value');
+                    
+                    // 移除同问题下其他选项的选中状态
+                    this.parentElement.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // 选中当前选项
+                    this.classList.add('selected');
+                    
+                    // 保存答案
+                    userAnswers[questionIndex] = value;
+                    
+                    // 启用对应的按钮
+                    nextButtons[questionIndex].classList.add('active');
+                    nextButtons[questionIndex].disabled = false;
+                    
+                    // 播放选择音效
+                    playSelectSound();
+                });
+            });
+            
+            // 为下一步按钮添加事件
+            nextButtons.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    playClickSound();
+                    
+                    if (index < questions.length - 1) {
+                        // 切换到下一个问题
+                        hideQuestion(index);
+                        showQuestion(index + 1);
+                        updateProgress((index + 1) / questions.length);
+                    } else {
+                        // 提交答案
+                        hideQuestion(index);
+                        showLoading();
+                        
+                        // 模拟计算过程
+                        setTimeout(() => {
+                            showResult();
+                        }, 2500);
+                    }
+                });
+            });
+            
+            // 重新开始按钮
+            restartBtn.addEventListener('click', () => {
+                playClickSound();
+                restartTest();
+            });
+            
+            // 音效开关
+            soundToggle.addEventListener('click', toggleSound);
+            
+            // 页面点击时初始化音频上下文（需要用户交互）
+            document.addEventListener('click', function initOnClick() {
+                initAudioContext();
+                document.removeEventListener('click', initOnClick);
+            });
+        }
+        
+        // 播放点击音效
+        function playClickSound() {
+            if (!soundEnabled) return;
+            
+            try {
+                initAudioContext();
+                
+                // 创建简短的点击音效
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                console.log("音效播放失败:", e);
+            }
+        }
+        
+        // 播放选择音效
+        function playSelectSound() {
+            if (!soundEnabled) return;
+            
+            try {
+                initAudioContext();
+                
+                // 创建选择音效
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.05);
+                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch (e) {
+                console.log("音效播放失败:", e);
+            }
+        }
+        
+        // 播放成功音效
+        function playSuccessSound() {
+            if (!soundEnabled) return;
+            
+            try {
+                initAudioContext();
+                
+                // 创建成功音效（一小段旋律）
+                const times = [0, 0.1, 0.2, 0.3, 0.4];
+                const frequencies = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5, E5, G5, C6, E6
+                
+                times.forEach((time, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(frequencies[index], audioContext.currentTime + time);
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + time);
+                    gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + time + 0.05);
+                    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + time + 0.15);
+                    
+                    oscillator.start(audioContext.currentTime + time);
+                    oscillator.stop(audioContext.currentTime + time + 0.15);
+                });
+            } catch (e) {
+                console.log("音效播放失败:", e);
+            }
+        }
+        
+        // 显示问题
+        function showQuestion(index) {
+            questions[index].classList.remove('hidden');
+        }
+        
+        // 隐藏问题
+        function hideQuestion(index) {
+            questions[index].classList.add('hidden');
+        }
+        
+        // 获取问题索引
+        function getQuestionIndex(questionId) {
+            return parseInt(questionId.replace('question', '')) - 1;
+        }
+        
+        // 更新进度条
+        function updateProgress(percent) {
+            const percentage = Math.round(percent * 100);
+            progressFill.style.width = `${percentage}%`;
+            progressText.textContent = `${Math.round(percent * questions.length)}/${questions.length} 已完成`;
+        }
+        
+        // 显示加载界面
+        function showLoading() {
+            loadingContainer.style.display = 'flex';
+            updateProgress(1); // 100%
+        }
+        
+        // 显示结果
+        function showResult() {
+            loadingContainer.style.display = 'none';
+            resultContainer.style.display = 'flex';
+            
+            // 生成结果
+            const result = generateResult();
+            resultText.textContent = result.text;
+            resultDesc.textContent = result.desc;
+            
+            // 播放成功音效
+            playSuccessSound();
+        }
+        
+        // 生成结果
+        function generateResult() {
+            const results = [
+                {
+                    text: "你的父亲是男性，母亲是女性！",
+                    desc: "经过我们的超级计算机分析，这个结果准确率高达99.9%！"
+                },
+                {
+                    text: "预测结果：父亲是男性！",
+                    desc: "根据量子力学和你的答案，我们得出了这个突破性的结论。"
+                },
+                {
+                    text: "预测结果：母亲是女性！",
+                    desc: "我们的算法经过数百万次计算，最终确认了这一重要发现。"
+                },
+                {
+                    text: "惊人的发现：你的父母都有性别！",
+                    desc: "经过复杂的基因分析，我们发现你的父母分别属于男性和女性。"
+                },
+                {
+                    text: "科学突破：父母性别确认成功！",
+                    desc: "恭喜！你刚刚完成了一项重大科学研究，确认了父母的性别。"
+                },
+                {
+                    text: "预测完成：父亲=男性，母亲=女性",
+                    desc: "我们的AI分析了你的回答，得出了这个具有里程碑意义的结论。"
+                }
+            ];
+            
+            // 基于用户答案选择结果
+            const answerKey = Object.values(userAnswers).join('');
+            let index = 0;
+            
+            // 简单哈希算法选择结果
+            for (let i = 0; i < answerKey.length; i++) {
+                index += answerKey.charCodeAt(i);
+            }
+            
+            index = index % results.length;
+            return results[index];
+        }
+        
+        // 重新开始测试
+        function restartTest() {
+            // 清空答案
+            Object.keys(userAnswers).forEach(key => delete userAnswers[key]);
+            
+            // 重置界面
+            questions.forEach((question, index) => {
+                question.classList.add('hidden');
+                
+                // 清除选项选择
+                question.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // 禁用按钮
+                nextButtons[index].classList.remove('active');
+                nextButtons[index].disabled = true;
+            });
+            
+            // 显示第一个问题
+            questions[0].classList.remove('hidden');
+            
+            // 隐藏结果和加载界面
+            resultContainer.style.display = 'none';
+            loadingContainer.style.display = 'none';
+            
+            // 重置进度条
+            updateProgress(0);
+        }
+        
+        // 切换音效
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            soundIcon.className = soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+            soundToggle.style.backgroundColor = soundEnabled ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 0, 0, 0.2)';
+            
+            // 播放点击音效（如果开启音效）
+            if (soundEnabled) {
+                playClickSound();
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
