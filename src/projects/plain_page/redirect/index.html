@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <link rel="icon" href="./favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Plain Page重定向ing...</title>
+    <style>
+        /* 重置与全新视觉风格 —— 深色毛玻璃 · 极简现代 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b0d1a 0%, #1a1f30 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1.5rem;
+            /* 移除原背景动画，改用卡片入场动画（见下方） */
+        }
+
+        /* 玻璃卡片容器 — 完全替换原 .container 样式 */
+        .glass-panel {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(22, 26, 40, 0.7);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 3rem;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            transition: transform 0.25s ease, box-shadow 0.4s ease;
+            animation: float-in 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-panel:hover {
+            transform: scale(1.01) translateY(-4px);
+            box-shadow: 0 40px 70px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 215, 100, 0.2) inset;
+        }
+
+        /* 内部布局 — 使用flex列，间距重新调整 */
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+        }
+
+        /* 标题区域 */
+        .title-block {
+            text-align: left;
+            border-left: 6px solid #f5c542;
+            padding-left: 1.8rem;
+        }
+
+        .title-block h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(130deg, #ffffff 0%, #d6e4ff 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            margin-bottom: 0.3rem;
+        }
+
+        .title-block .subhead {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #a9b7d4;
+            margin-top: 0.2rem;
+        }
+
+        /* 重定向说明文字 + 链接 */
+        .redirect-message {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #cfdbf5;
+            background: rgba(10, 14, 23, 0.5);
+            padding: 1.4rem 1.8rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+        }
+
+        .redirect-message a {
+            color: #ffdb7e;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid rgba(255, 215, 100, 0.3);
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .redirect-message a:hover {
+            color: #ffe9a7;
+            border-bottom-color: #ffdb7e;
+        }
+
+        /* 倒计时卡片 — 数字突出 */
+        .countdown-box {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 2.5rem;
+            padding: 1rem 2rem 1rem 2.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 0.5rem 0;
+        }
+
+        .countdown-label {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #99aac7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #msg {
+            font-size: 2.4rem;
+            font-weight: 600;
+            font-feature-settings: "tnum";
+            background: linear-gradient(145deg, #ffe09c, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.2s;
+            min-width: 160px;
+            text-align: right;
+        }
+
+        /* 版权脚注 — 新样式 */
+        .footer-note {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            color: #62748c;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .footer-note p {
+            background: rgba(18, 22, 35, 0.6);
+            padding: 0.3rem 1.2rem;
+            border-radius: 3rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        /* 入场动画（取代原fade-in/background-in） */
+        @keyframes float-in {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+                filter: blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 550px) {
+            .glass-panel {
+                padding: 2rem 1.5rem;
+                border-radius: 2rem;
+            }
+            .title-block h1 {
+                font-size: 2.2rem;
+            }
+            .countdown-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            #msg {
+                text-align: left;
+                font-size: 2rem;
+            }
+        }
+
+        /* 完全移除原样式中的 .container .stackpanel 等，全部重新定义 */
+    </style>
+</head>
+<!-- 不使用原body内联动画，由新CSS驱动 -->
+<body>
+    <div class="glass-panel">
+        <div class="content">
+            <!-- 标题区 -->
+            <div class="title-block">
+                <h1>The Plain Page</h1>
+                <div class="subhead">感谢你使用普兰主页</div>
+            </div>
+
+            <!-- 重定向说明 -->
+            <div class="redirect-message">
+                正在将你重定向至作者个人网站...<br>若倒计时结束未自动重定向，请
+                <a href="https://xwdjjy.github.io/" target="_blank">点击此处</a>！
+            </div>
+
+            <!-- 倒计时区域 -->
+            <div class="countdown-box">
+                <span class="countdown-label">自动跳转</span>
+                <span id="msg">将在 5 秒后跳转</span>
+            </div>
+
+            <!-- 版权行 -->
+            <div class="footer-note">
+                <p>©Copyright Xwdjjy 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redirect() {
+            var div = document.getElementById("msg");
+            var time = 10;
+            var timer = setInterval(function() {
+                if (time === 0) {
+                    div.innerHTML = "请等一下…";
+                    location.href = "https://xwdjjy.github.io/";
+                    clearInterval(timer);
+                } else {
+                    div.innerHTML = "将在 " + time + " 秒后跳转";
+                    time--;
+                }
+            }, 1000);
+        }
+        // 页面加载完成后执行重定向倒计时
+        window.addEventListener('load', redirect);
+    </script>
+</body>
+</html>
