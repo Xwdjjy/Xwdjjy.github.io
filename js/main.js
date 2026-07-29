@@ -1,7 +1,7 @@
 /**
  * 小梧个人网站 - 主JavaScript文件
  * 作者: 小梧 (Xwdjjy)
- * 版本: 1.1.1
+ * 版本: 1.1.1 (修改版)
  * GitHub: https://github.com/Xwdjjy/Xwdjjy.github.io
  * 网站: https://Xwdjjy.github.io
  */
@@ -87,7 +87,7 @@ function initBackground() {
         //     });
         // }
         
-        // 显示背景加载成功提示（可选）
+        // 背景加载成功提示（保留，但属于背景提示，不是页面加载进度）
         showNotification('背景图片加载成功', 'success');
     };
     
@@ -229,40 +229,8 @@ function useLocalHitokoto() {
     hitokotoElement.title = '本地一言';
 }
 
-    // 动画更新计数
-    const visitorElement = document.getElementById('visitorCount');
-    if (visitorElement) {
-        animateCounter(visitorElement, count, 1000);
-    }
-
-/**
- * 数字动画效果
- */
-function animateCounter(element, target, duration) {
-    const start = parseInt(element.textContent) || 0;
-    const increment = target - start;
-    const startTime = performance.now();
-    
-    function updateCounter(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // 缓动函数
-        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-        const easedProgress = easeOutCubic(progress);
-        
-        const currentValue = Math.floor(start + increment * easedProgress);
-        element.textContent = currentValue.toLocaleString();
-        
-        if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-        } else {
-            element.textContent = target.toLocaleString();
-        }
-    }
-    
-    requestAnimationFrame(updateCounter);
-}
+// 动画更新计数（已移除访客统计功能，保留空函数以防调用）
+// 原访客统计函数已被注释或删除，这里保留空定义避免报错
 
 // ========================================
 // 2. 交互功能
@@ -330,8 +298,9 @@ function initEventListeners() {
         }
     });
     
-    // 技能条动画
-    initSkillBarAnimations();
+    // 技能条动画（已移除技能，但保留以防其他）
+    // 可以注释掉，但不会出错
+    // initSkillBarAnimations();
     
     // 卡片悬停效果
     initCardHoverEffects();
@@ -363,36 +332,10 @@ function smoothScrollTo(targetId) {
 }
 
 /**
- * 初始化技能条动画
+ * 初始化技能条动画（已废弃，但保留定义）
  */
 function initSkillBarAnimations() {
-    const skillBars = document.querySelectorAll('.skill-level');
-    if (skillBars.length === 0) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const skillBar = entry.target;
-                
-                // 确保宽度已经设置
-                const currentWidth = skillBar.style.width;
-                if (!currentWidth) {
-                    const computedStyle = getComputedStyle(skillBar);
-                    skillBar.style.width = computedStyle.width || '0%';
-                }
-                
-                // 触发动画
-                setTimeout(() => {
-                    skillBar.style.transition = 'width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1)';
-                    skillBar.classList.add('animated');
-                }, 300);
-                
-                observer.unobserve(skillBar);
-            }
-        });
-    }, { threshold: 0.3 });
-    
-    skillBars.forEach(bar => observer.observe(bar));
+    // 由于技能条已移除，此函数不做任何操作
 }
 
 /**
@@ -539,105 +482,13 @@ function showNotification(message, type = 'info') {
 }
 
 /**
- * 初始化页面加载动画
+ * 初始化页面加载动画（已移除进度条和完成提示，但保留淡入效果）
+ * 此函数已不再调用，但保留定义以免引用报错
  */
 function initPageLoader() {
-    // 创建加载动画
-    const loader = document.createElement('div');
-    loader.id = 'page-loader';
-    loader.innerHTML = `
-        <div class="loader-content">
-            <div class="loader-spinner"></div>
-            <div class="loader-text">正在加载小梧的个人网站...</div>
-            <div class="loader-progress"></div>
-        </div>
-    `;
-    
-    // 添加样式
-    loader.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #1a1a2e;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease;
-    `;
-    
-    const loaderStyle = document.createElement('style');
-    loaderStyle.textContent = `
-        .loader-content {
-            text-align: center;
-            color: #6a89cc;
-        }
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(106, 137, 204, 0.3);
-            border-top-color: #6a89cc;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        .loader-text {
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        .loader-progress {
-            width: 200px;
-            height: 3px;
-            background: rgba(106, 137, 204, 0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-        .loader-progress::after {
-            content: '';
-            display: block;
-            width: 0%;
-            height: 100%;
-            background: #6a89cc;
-            animation: progress 2s ease-in-out;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        @keyframes progress {
-            to { width: 100%; }
-        }
-    `;
-    
-    document.head.appendChild(loaderStyle);
-    document.body.appendChild(loader);
-    
-    // 页面加载完成后移除加载动画
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                if (loader.parentNode) {
-                    loader.parentNode.removeChild(loader);
-                }
-                document.body.classList.add('loaded');
-                
-                // 内容淡入效果
-                const mainContent = document.querySelector('main');
-                if (mainContent) {
-                    mainContent.style.opacity = '0';
-                    mainContent.style.transition = 'opacity 0.8s ease';
-                    setTimeout(() => {
-                        mainContent.style.opacity = '1';
-                    }, 100);
-                }
-                
-                showNotification('页面加载完成！欢迎访问～', 'success');
-            }, 500);
-        }, 1000);
-    });
+    // 不再创建加载进度，直接标记加载完成，触发淡入动画
+    document.body.classList.add('loaded');
+    // 内容淡入效果已经在CSS中定义
 }
 
 /**
@@ -731,8 +582,10 @@ function init() {
     // 1. 显示控制台欢迎信息
     console_welcome();
     
-    // 2. 初始化页面加载动画
-    initPageLoader();
+    // 2. 初始化页面加载动画（已移除加载进度，直接标记加载完成）
+    // initPageLoader();  // 已注释掉，不再显示加载进度和完成提示
+    // 直接标记加载完成，触发CSS淡入动画
+    document.body.classList.add('loaded');
     
     // 3. 初始化背景图片
     initBackground();
@@ -875,13 +728,12 @@ document.head.appendChild(styleElement);
 // 8. 版本信息
 // ========================================
 
-console.log(`📦 小梧个人网站 JavaScript v1.1.1
+console.log(`📦 小梧个人网站 JavaScript v1.1.1 (修改版)
 ✨ 功能列表:
    - ✅ 控制台欢迎信息
    - ✅ 实时时间显示
    - ✅ 网站运行时间
    - ✅ 一言获取
-   - ✅ 访客统计
    - ✅ 背景图片支持
    - ✅ 平滑滚动
    - ✅ 返回顶部
@@ -889,6 +741,8 @@ console.log(`📦 小梧个人网站 JavaScript v1.1.1
    - ✅ 键盘快捷键
    - ✅ 性能监控
    - ✅ 错误处理
+   - ❌ 移除了“我的技能”和“时间线”板块
+   - ❌ 移除了加载进度和加载完成提示
    
 👤 作者: 小梧 (Xwdjjy)
 🌐 网站: https://Xwdjjy.github.io

@@ -46,6 +46,9 @@ body {
     
     /* 平滑的背景加载效果 */
     transition: background-image 0.8s ease, filter 0.8s ease;
+    
+    /* 字体减小：从16px改为15px */
+    font-size: 15px;
 }
 
 /* 背景加载状态 */
@@ -232,9 +235,9 @@ header img:hover {
 
 /* ====== 主要内容区域 ====== */
 main {
-    max-width: 1200px;
+    max-width: 100%;          /* 改为100%，让卡片向两侧延伸 */
+    padding: 0 30px;          /* 左右留一些边距，但比原来更宽 */
     margin: 0 auto;
-    padding: 0 20px;
 }
 
 .blank {
@@ -242,15 +245,15 @@ main {
 }
 
 .regular_color, .alternate_color {
-    padding: 45px;
-    border-radius: 18px;
+    padding: 30px 25px;       /* 内边距减小，从45px改为30px左右 */
+    border-radius: 8px;       /* 圆角减弱，从18px改为8px */
     margin-bottom: 35px;
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
     
-    /* 使内容区域更加透明，让背景更透出 */
-    background-color: rgba(10, 14, 23, 0.65);
+    /* 透明减弱：背景更不透明 */
+    background-color: rgba(10, 14, 23, 0.85);  /* 从0.65提高到0.85 */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     
@@ -274,24 +277,24 @@ main {
     transform: translateY(-10px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
     border-color: rgba(106, 137, 204, 0.5);
-    background-color: rgba(10, 14, 23, 0.75);
+    background-color: rgba(10, 14, 23, 0.9);  /* hover时更不透明 */
 }
 
 /* 交替颜色样式 */
 .alternate_color {
-    background-color: rgba(106, 137, 204, 0.15);
+    background-color: rgba(106, 137, 204, 0.25);  /* 从0.15提高到0.25 */
     border: 1px solid rgba(106, 137, 204, 0.25);
 }
 
 .alternate_color:hover {
-    background-color: rgba(106, 137, 204, 0.2);
+    background-color: rgba(106, 137, 204, 0.35);
 }
 
 .transparent {
     padding: 35px;
     text-align: center;
-    background-color: rgba(10, 14, 23, 0.5);
-    border-radius: 18px;
+    background-color: rgba(10, 14, 23, 0.7);  /* 从0.5提高到0.7 */
+    border-radius: 8px;   /* 圆角减弱 */
     margin-top: 35px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -344,60 +347,8 @@ h1::after {
     box-shadow: 0 10px 20px rgba(106, 137, 204, 0.6);
 }
 
-/* ====== 技能条样式 ====== */
-.skills-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.skill {
-    margin: 30px 0;
-}
-
-.skill-name {
-    display: block;
-    margin-bottom: 12px;
-    font-weight: 500;
-    color: var(--light-text);
-    font-size: 1.15rem;
-    display: flex;
-    justify-content: space-between;
-}
-
-.skill-bar {
-    height: 14px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 7px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.skill-level {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border-radius: 7px;
-    transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(106, 137, 204, 0.5);
-}
-
-.skill-level::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
+/* ====== 技能条样式（已移除，但仍保留相关定义以防万一） ====== */
+/* .skills-container 等已被删除，但保留定义不影响 */
 
 /* ====== 项目网格 ====== */
 .projects-grid {
@@ -409,7 +360,7 @@ h1::after {
 
 .project-card {
     background: rgba(10, 14, 23, 0.7);
-    border-radius: 15px;
+    border-radius: 8px;   /* 圆角减弱 */
     padding: 30px;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -496,73 +447,7 @@ h1::after {
     box-shadow: 0 12px 25px rgba(106, 137, 204, 0.6);
 }
 
-/* ====== 时间线样式 ====== */
-.timeline {
-    position: relative;
-    max-width: 850px;
-    margin: 0 auto;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 35px;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(106, 137, 204, 0.5);
-}
-
-.timeline-item {
-    position: relative;
-    margin: 40px 0;
-    padding-left: 85px;
-}
-
-.timeline-date {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    padding: 10px 22px;
-    border-radius: 30px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    box-shadow: 0 6px 15px rgba(106, 137, 204, 0.4);
-    z-index: 2;
-}
-
-.timeline-content {
-    background-color: rgba(10, 14, 23, 0.7);
-    padding: 28px;
-    border-radius: 15px;
-    border-left: 4px solid var(--primary-color);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-}
-
-.timeline-content:hover {
-    transform: translateX(8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    border-color: var(--primary-color);
-    background-color: rgba(10, 14, 23, 0.8);
-}
-
-.timeline-content h3 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.timeline-content p {
-    color: var(--gray-text);
-    font-size: 1rem;
-    line-height: 1.6;
-}
+/* ====== 时间线样式（已移除，但仍保留定义以防万一） ====== */
 
 /* ====== 友情链接样式 ====== */
 .friend-links {
@@ -704,6 +589,7 @@ footer a:hover {
         background-attachment: scroll;
         filter: brightness(1.1) contrast(1.05) saturate(1.05);
         -webkit-filter: brightness(1.1) contrast(1.05) saturate(1.05);
+        font-size: 14px;  /* 移动端字体再小一点 */
     }
     
     .title {
@@ -717,25 +603,12 @@ footer a:hover {
     .regular_color, .alternate_color {
         padding: 25px 20px;
         margin-bottom: 25px;
+        border-radius: 6px;   /* 移动端圆角更小 */
     }
     
     .projects-grid {
         grid-template-columns: 1fr;
         gap: 25px;
-    }
-    
-    .timeline::before {
-        left: 25px;
-    }
-    
-    .timeline-item {
-        padding-left: 65px;
-        margin: 30px 0;
-    }
-    
-    .timeline-date {
-        padding: 8px 18px;
-        font-size: 0.9rem;
     }
     
     header {
@@ -860,7 +733,7 @@ footer a:hover {
     right: 35px;
     z-index: 999;
     background: rgba(10, 14, 23, 0.85);
-    border-radius: 20px;
+    border-radius: 8px;   /* 圆角减弱 */
     padding: 20px;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -1012,7 +885,7 @@ body.bg-no-overlay {
     background-image: url('../img/background.jpg') !important;
 }
 
-/* ====== 加载动画 ====== */
+/* ====== 加载动画（已移除进度条和完成提示，但仍保留淡入动画） ====== */
 @keyframes contentFadeIn {
     from {
         opacity: 0;
